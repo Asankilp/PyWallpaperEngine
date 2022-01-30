@@ -1,11 +1,9 @@
 import win32api
 import win32con
 import win32gui
-import win32process
 import time
 import json
 import os
-
 config = ["{\"video_dir\": \"\"}"]
 if not os.path.exists("config.json"):
     print("找不到config.json。正在创建...")
@@ -35,7 +33,6 @@ def hide(hwnd, hwnds):
 
 os.popen(f"ffplay {param}")
 time.sleep(0.5)
-print("aaaa")
 progman = win32gui.FindWindow("Progman", "Program Manager")  # 寻找Progman
 win32gui.SendMessageTimeout(progman, 0x52C, 0, 0, 0, 1000)  # 发送0x52C消息
 videowin = win32gui.FindWindow("SDL_app", None)  # 寻找ffplay 播放窗口
