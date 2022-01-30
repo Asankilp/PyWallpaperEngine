@@ -4,7 +4,8 @@ import win32gui
 import time
 import json
 import os
-config = ["{\"video_dir\": \"\"}"]
+
+config = ["{\"video_dir\": \"\", \"disable_audio\": false}"]
 if not os.path.exists("config.json"):
     print("找不到config.json。正在创建...")
     with open("config.json", mode="w") as newconf:
@@ -12,12 +13,16 @@ if not os.path.exists("config.json"):
 try:
     with open("config.json", encoding="utf-8") as conf:
         a = json.load(conf)
+        disableaudio = a["disable_audio"]
         videodir = a["video_dir"]
 except:
     print("无法读取config.json.")
     pass
-
-param = f"{videodir} -noborder -x 1920 -y 1080 -loop 0"
+resox = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)
+resoy = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
+param = f"{videodir} -noborder -x {resox} -y {resoy} -loop 0 "
+if disableaudio:
+    param += "-an"
 
 
 def hide(hwnd, hwnds):
